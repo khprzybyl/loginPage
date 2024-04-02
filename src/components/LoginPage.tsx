@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import showIcon from '../assets/svg/show.svg';
 import hideIcon from '../assets/svg/hide.svg';
 import { ToastContainer } from 'react-toastify';
 import { validationSchema } from '../utils/validationSchema';
 import { handleSubmit } from '../utils/formHandlers';
+import { FormInput } from './FormInput';
+import { I18n } from '../constants/i18n';
 
 export const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +14,15 @@ export const LoginPage: React.FC = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const visibilityIcon = (
+    <img
+      src={showPassword ? hideIcon : showIcon}
+      alt={showPassword ? 'Hide password' : 'Show password'}
+      className="pointer-events-auto absolute text-gray-500 my-auto inset-y-0 right-0 mr-3 cursor-pointer h-5 w-5"
+      onClick={togglePasswordVisibility}
+    />
+  );
 
   return (
     <div className="w-80 px-5 sm:px-8 py-10 bg-slate-50 rounded-lg shadow-lg">
@@ -23,72 +34,22 @@ export const LoginPage: React.FC = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, isValid, dirty, errors, touched }) => (
+        {({ isSubmitting, isValid, dirty }) => (
           <Form className="flex flex-col gap-4">
-            <div className="flex flex-col text-sm">
-              <label
-                htmlFor="email"
-                className="block font-medium text-gray-900"
-              >
-                Email
-              </label>
-              <div className="relative mt-1 rounded-md">
-                <Field
-                  id="email"
-                  name="email"
-                  placeholder="E-mail address"
-                  type="email"
-                  className={`block w-full rounded-md border-0 py-3 px-5 text-gray-900 ring-1 ring-inset ${
-                    errors.email && touched.email
-                      ? 'ring-red-500 hover:ring-red-500 focus:ring-red-500'
-                      : 'ring-gray-300 hover:ring-yellow-400 focus:ring-yellow-400'
-                  } placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-inset leading-6 shadow-sm`}
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="text-red-400 text-xs leading-6 "
-                />
-              </div>
-            </div>
-            <div className="flex flex-col text-sm">
-              <label
-                htmlFor="password"
-                className="block font-medium text-gray-900"
-              >
-                Password
-              </label>
-              <div className="relative mt-1 rounded-md">
-                <Field
-                  placeholder="Password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  className={`block w-full rounded-md border-0 py-3 px-5 text-gray-900 ring-1 ring-inset pr-10 ${
-                    errors.password && touched.password
-                      ? 'ring-red-500 hover:ring-red-500 focus:ring-red-500'
-                      : 'ring-gray-300 hover:ring-yellow-400 focus:ring-yellow-400'
-                  } placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-inset leading-6 shadow-sm`}
-                />
-                <img
-                  src={showPassword ? hideIcon : showIcon}
-                  alt={showPassword ? 'Hide password' : 'Show password'}
-                  className="pointer-events-auto absolute text-gray-500 my-auto inset-y-0 right-0 mr-3 cursor-pointer h-5 w-5"
-                  onClick={togglePasswordVisibility}
-                />
-              </div>
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-400 text-xs leading-6 "
-              />
-            </div>
+            <FormInput label="Email" name="email" />
+            <FormInput
+              label="Password"
+              name="password"
+              type={showPassword ? 'text' : 'password'}
+              renderOptional={visibilityIcon}
+            />
             <p className="text-sm color">Forgot password?</p>
             <button
               type="submit"
               disabled={isSubmitting || !isValid || !dirty}
               className="enabled:hover:-translate-y-0.5 transition motion-reduce:enabled:hover:translate-y-0 motion-reduce:transition-none bg-yellow-400 rounded-lg py-3 mt-4 font-medium shadow-sm disabled:opacity-50 disabled:bg-slate-400 "
             >
-              Login
+              {I18n.ButtonText}
             </button>
           </Form>
         )}
