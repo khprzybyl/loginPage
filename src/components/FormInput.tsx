@@ -25,6 +25,7 @@ export const FormInput: FC<FormInputProps> = ({
         <input
           {...field}
           type={type}
+          placeholder={name}
           className={`block w-full rounded-md border-0 py-3 px-5 text-gray-900 ring-1 ring-inset pr-10 ${
             hasError
               ? 'ring-red-500 hover:ring-red-500 focus:ring-red-500'
