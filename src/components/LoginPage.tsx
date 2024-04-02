@@ -7,6 +7,7 @@ import { validationSchema } from '../utils/validationSchema';
 import { handleSubmit } from '../utils/formHandlers';
 import { FormInput } from './FormInput';
 import { I18n } from '../constants/i18n';
+import { ForgotPassword } from './ForgotPassword';
 
 export const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,7 +44,7 @@ export const LoginPage: React.FC = () => {
               type={showPassword ? 'text' : 'password'}
               renderOptional={visibilityIcon}
             />
-            <p className="text-sm color">Forgot password?</p>
+            <ForgotPassword />
             <button
               type="submit"
               disabled={isSubmitting || !isValid || !dirty}
