@@ -1,7 +1,12 @@
 import React from 'react';
+import { LoginPage } from './components/LoginPage';
 
-export const App = () => {
-  return <div className="text-3xl font-bold underline">Login Page</div>;
+export const App: React.FC = () => {
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-slate-200">
+      <LoginPage />
+    </div>
+  );
 };
 
 export default App;
