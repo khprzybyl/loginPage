@@ -12,8 +12,12 @@ type FormikOnSubmit = (
   formikHelpers: FormikHelpers<Values>
 ) => void;
 
-export const handleSubmit: FormikOnSubmit = (values, { setSubmitting }) => {
+export const handleSubmit: FormikOnSubmit = (
+  values,
+  { setSubmitting, resetForm }
+) => {
   localStorage.setItem('email', values.email);
-  setSubmitting(false);
   toast.success(I18n.LoginSucces);
+  resetForm();
+  setSubmitting(false);
 };
