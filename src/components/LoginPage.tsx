@@ -1,10 +1,20 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 interface Values {
   email: string;
   password: string;
 }
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Email is required'),
+  password: Yup.string()
+    .min(8, 'Password must be at least 8 characters long')
+    .required('Password is required'),
+});
 
 export const LoginPage: React.FC = () => {
   return (
@@ -14,9 +24,11 @@ export const LoginPage: React.FC = () => {
       </p>
       <Formik<Values>
         initialValues={{ email: '', password: '' }}
-        //TODO: Create validataiton and submit function
-        validate={() => console.log('validate')}
-        onSubmit={() => console.log('submit')}
+        validationSchema={validationSchema}
+        onSubmit={(values: Values, { setSubmitting }) => {
+          localStorage.setItem('email', values.email);
+          setSubmitting(false);
+        }}
       >
         {({ isSubmitting }) => (
           <Form className="flex flex-col gap-4">
