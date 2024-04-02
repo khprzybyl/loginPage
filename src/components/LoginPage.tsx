@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import showIcon from '../assets/svg/show.svg';
 import hideIcon from '../assets/svg/hide.svg';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface Values {
   email: string;
@@ -29,6 +30,9 @@ export const LoginPage: React.FC = () => {
   const handleSubmit: FormikOnSubmit = (values, { setSubmitting }) => {
     localStorage.setItem('email', values.email);
     setSubmitting(false);
+    toast.success(
+      'Your email address saved successfully in the local storage!'
+    );
   };
 
   const togglePasswordVisibility = () => {
@@ -115,6 +119,7 @@ export const LoginPage: React.FC = () => {
           </Form>
         )}
       </Formik>
+      <ToastContainer />
     </div>
   );
 };

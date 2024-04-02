@@ -1,5 +1,6 @@
 import React from 'react';
 import { LoginPage } from './components/LoginPage';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const App: React.FC = () => {
   return (
