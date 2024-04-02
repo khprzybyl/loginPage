@@ -93,7 +93,7 @@ export const LoginPage: React.FC = () => {
                 />
                 <img
                   src={showPassword ? hideIcon : showIcon}
-                  alt="Toggle visibility"
+                  alt={showPassword ? 'Hide password' : 'Show password'}
                   className="pointer-events-auto absolute text-gray-500 my-auto inset-y-0 right-0 mr-3 cursor-pointer h-5 w-5"
                   onClick={togglePasswordVisibility}
                 />
