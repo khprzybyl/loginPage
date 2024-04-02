@@ -1,5 +1,5 @@
 import { FormikHelpers } from 'formik';
-import { messages } from '../constants/messages';
+import { I18n } from '../constants/i18n';
 import { toast } from 'react-toastify';
 
 interface Values {
@@ -15,5 +15,5 @@ type FormikOnSubmit = (
 export const handleSubmit: FormikOnSubmit = (values, { setSubmitting }) => {
   localStorage.setItem('email', values.email);
   setSubmitting(false);
-  toast.success(messages.LoginSucces);
+  toast.success(I18n.LoginSucces);
 };

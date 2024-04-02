@@ -1,4 +1,4 @@
-export enum messages {
+export enum I18n {
   EmailRequired = 'Email is required',
   EmailInvalid = 'Invalid email address',
   PasswordRequired = 'Password is required',

@@ -1,11 +1,9 @@
 import * as Yup from 'yup';
-import { messages } from '../constants/messages';
+import { I18n } from '../constants/i18n';
 
 export const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email(messages.EmailInvalid)
-    .required(messages.EmailRequired),
+  email: Yup.string().email(I18n.EmailInvalid).required(I18n.EmailRequired),
   password: Yup.string()
-    .min(8, messages.PasswordMinLength)
-    .required(messages.PasswordRequired),
+    .min(8, I18n.PasswordMinLength)
+    .required(I18n.PasswordRequired),
 });
