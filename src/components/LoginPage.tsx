@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import showIcon from '../assets/svg/show.svg';
+import hideIcon from '../assets/svg/hide.svg';
 
 interface Values {
   email: string;
@@ -17,8 +19,14 @@ const validationSchema = Yup.object().shape({
 });
 
 export const LoginPage: React.FC = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div className="p-10 bg-slate-50 rounded-lg shadow-lg">
+    <div className="w-80 px-5 sm:px-8 py-10 bg-slate-50 rounded-lg shadow-lg">
       <p className=" flex justify-center text-xl leading-8 font-bold mb-7">
         LOGIN
       </p>
@@ -30,12 +38,12 @@ export const LoginPage: React.FC = () => {
           setSubmitting(false);
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, isValid, dirty, errors, touched }) => (
           <Form className="flex flex-col gap-4">
-            <div className="flex flex-col">
+            <div className="flex flex-col text-sm">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-900"
+                className="block font-medium text-gray-900"
               >
                 Email
               </label>
@@ -45,36 +53,55 @@ export const LoginPage: React.FC = () => {
                   name="email"
                   placeholder="E-mail address"
                   type="email"
-                  className="block w-full rounded-md border-0 py-3 px-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-sm"
+                  className={`block w-full rounded-md border-0 py-3 px-5 text-gray-900 ring-1 ring-inset ${
+                    errors.email && touched.email
+                      ? 'ring-red-500 hover:ring-red-500 focus:ring-red-500'
+                      : 'ring-gray-300 hover:ring-yellow-400 focus:ring-yellow-400'
+                  } placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-inset leading-6 shadow-sm`}
                 />
-                <ErrorMessage name="email" component="div" />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-400 text-xs leading-6 "
+                />
               </div>
             </div>
             <div className="flex flex-col text-sm">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-900"
+                className="block font-medium text-gray-900"
               >
                 Password
               </label>
-              <div className="relative mt-1 rounded-md ">
+              <div className="relative mt-1 rounded-md">
                 <Field
                   placeholder="Password"
                   name="password"
-                  type="password"
-                  className="block w-full rounded-md border-0 py-3 px-5 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-sm"
+                  type={showPassword ? 'text' : 'password'}
+                  className={`block w-full rounded-md border-0 py-3 px-5 text-gray-900 ring-1 ring-inset pr-10 ${
+                    errors.password && touched.password
+                      ? 'ring-red-500 hover:ring-red-500 focus:ring-red-500'
+                      : 'ring-gray-300 hover:ring-yellow-400 focus:ring-yellow-400'
+                  } placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-inset leading-6 shadow-sm`}
                 />
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                  <span className="text-gray-500 sm:text-sm">icon</span>
-                </div>
-                <ErrorMessage name="password" component="div" />
+                <img
+                  src={showPassword ? hideIcon : showIcon}
+                  alt="Toggle visibility"
+                  className="pointer-events-auto absolute text-gray-500 my-auto inset-y-0 right-0 mr-3 cursor-pointer h-5 w-5"
+                  onClick={togglePasswordVisibility}
+                />
               </div>
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-400 text-xs leading-6 "
+              />
             </div>
             <p className="text-sm color">Forgot password?</p>
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="enabled:hover:-translate-y-0.5 transition enabled:motion-reduce:hover:translate-y-0 motion-reduce:transition-none bg-yellow-400 rounded-lg py-3 mt-4 font-medium shadow-sm"
+              disabled={isSubmitting || !isValid || !dirty}
+              className="enabled:hover:-translate-y-0.5 transition motion-reduce:enabled:hover:translate-y-0 motion-reduce:transition-none bg-yellow-400 rounded-lg py-3 mt-4 font-medium shadow-sm disabled:opacity-50 disabled:bg-slate-400 "
             >
               Login
             </button>
