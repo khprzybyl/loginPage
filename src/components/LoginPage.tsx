@@ -1,39 +1,13 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import showIcon from '../assets/svg/show.svg';
 import hideIcon from '../assets/svg/hide.svg';
-import { toast, ToastContainer } from 'react-toastify';
-
-interface Values {
-  email: string;
-  password: string;
-}
-
-type FormikOnSubmit = (
-  values: Values,
-  formikHelpers: FormikHelpers<Values>
-) => void;
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required'),
-  password: Yup.string()
-    .min(8, 'Password must be at least 8 characters long')
-    .required('Password is required'),
-});
+import { ToastContainer } from 'react-toastify';
+import { validationSchema } from '../utils/validationSchema';
+import { handleSubmit } from '../utils/formHandlers';
 
 export const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleSubmit: FormikOnSubmit = (values, { setSubmitting }) => {
-    localStorage.setItem('email', values.email);
-    setSubmitting(false);
-    toast.success(
-      'Your email address saved successfully in the local storage!'
-    );
-  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -44,7 +18,7 @@ export const LoginPage: React.FC = () => {
       <p className=" flex justify-center text-xl leading-8 font-bold mb-7">
         LOGIN
       </p>
-      <Formik<Values>
+      <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
