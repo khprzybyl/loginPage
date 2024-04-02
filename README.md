@@ -47,3 +47,15 @@ Enter your email and password to log in. The login button is enabled only when t
 ## Improvments
 
 I used I18n, if I had more time I would install a library for managing strings properly.
+
+I used yup with built-in email validation, which does not check that the email contains the correct extension. With more time, I would use a custom regex, or a js validator or other that would be effective.
+
+Next step would be to add tests for LoginPage and for FormInput components. For example I would check if:
+
+- email is saved to localStorage on successful login,
+- error message is displayed for invalid email format,
+- login button is disabled when form is invalid, 
+- login button is enabled when form inputs are valid,
+- correctly links label with input using the name prop.
+
+
