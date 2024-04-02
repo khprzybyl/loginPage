@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import showIcon from '../assets/svg/show.svg';
 import hideIcon from '../assets/svg/hide.svg';
@@ -8,6 +8,11 @@ interface Values {
   email: string;
   password: string;
 }
+
+type FormikOnSubmit = (
+  values: Values,
+  formikHelpers: FormikHelpers<Values>
+) => void;
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -21,6 +26,11 @@ const validationSchema = Yup.object().shape({
 export const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
+  const handleSubmit: FormikOnSubmit = (values, { setSubmitting }) => {
+    localStorage.setItem('email', values.email);
+    setSubmitting(false);
+  };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -33,10 +43,7 @@ export const LoginPage: React.FC = () => {
       <Formik<Values>
         initialValues={{ email: '', password: '' }}
         validationSchema={validationSchema}
-        onSubmit={(values: Values, { setSubmitting }) => {
-          localStorage.setItem('email', values.email);
-          setSubmitting(false);
-        }}
+        onSubmit={handleSubmit}
       >
         {({ isSubmitting, isValid, dirty, errors, touched }) => (
           <Form className="flex flex-col gap-4">
