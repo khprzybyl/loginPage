@@ -24,6 +24,7 @@ export const FormInput: FC<FormInputProps> = ({
       <div className="relative mt-1 rounded-md">
         <input
           {...field}
+          id={name}
           type={type}
           placeholder={name}
           className={`block w-full rounded-md border-0 py-3 px-5 text-gray-900 ring-1 ring-inset pr-10 ${
